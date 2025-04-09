@@ -1,15 +1,20 @@
 #import pandas as library
 import pandas as pd
+#import colorama as library
+from colorama import Fore, Back, Style, init
 
+# Cost format function
+def format_cost_column(df):
+    df["cost"] = df["cost"].apply(lambda x: f"${x:,.2f}")
+    return df
+
+# Weapon list display function
 def weapon_list():
     
     # Create menu dictionary
     menu_dict = {}
-    # Format prices as currency
-    pd.set_option('display.float_format', '{:.2f}'.format)
-    
+        
     # Add category numbers and names to dictionary
-    menu_dict["categoryID"] = [1, 2, 3, 4, 5]
     menu_dict["categoryName"] = ["Medieval European", "Renaissance and Duelling", "Asian and Eastern",
                                  "Fantasy and Decorative", "Practical and Training"]
     
@@ -42,26 +47,31 @@ def weapon_list():
     # Print all dictionaries
     # Print Menu Categories
     print("Menu Categories:")
-    print(pd.DataFrame(menu_dict, index=range(1, len(menu_dict["categoryID"]) + 1)))
+    print(pd.DataFrame(menu_dict, index=range(1, len(menu_dict["categoryName"]) + 1)).to_string(col_space=10))
     
-    # Print Europe Category
-    print("\nMedieval European Swords")
-    print(pd.DataFrame(menu_Europe, index=range(1, len(menu_Europe["swordType"]) + 1)))
+    print("\nMedieval European Swords:")
+    df = pd.DataFrame(menu_Europe, index = range(1, len(menu_Europe["swordType"]) + 1))
+    df = format_cost_column(df)
+    print(df.to_string(col_space=15))
     
-    # Print Duelling Category
     print("\nRenaissance and Duelling Swords:")
-    print(pd.DataFrame(menu_Duelling, index=range(1, len(menu_Duelling["swordType"]) + 1)))
+    df = pd.DataFrame(menu_Duelling, index = range(1, len(menu_Duelling["swordType"]) + 1))
+    df = format_cost_column(df)
+    print(df.to_string(col_space=15))
     
-    # Print Asia Category
-    print("\nAsian and Eastern Swords")
-    print(pd.DataFrame(menu_Asia, index=range(1, len(menu_Asia["swordType"]) + 1)))
+    print("\nAsian and Eastern Swords:")
+    df = pd.DataFrame(menu_Asia, index = range(1, len(menu_Asia["swordType"]) + 1))
+    df = format_cost_column(df)
+    print(df.to_string(col_space=15))
     
-    # Print Decor Category
-    print("\nFantasy and Decorative Swords")
-    print(pd.DataFrame(menu_Decor, index=range(1, len(menu_Decor["swordType"]) + 1)))
+    print("\nFantasy and Decorative Swords:")
+    df = pd.DataFrame(menu_Decor, index = range(1, len(menu_Decor["swordType"]) + 1))
+    df = format_cost_column(df)
+    print(df.to_string(col_space=15))
     
-    # Print Practical Category
-    print("\nPractical and Training Swords")
-    print(pd.DataFrame(menu_Practical, index=range(1, len(menu_Practical["swordType"]) + 1)))
+    print("\nPractical and Training Swords:")
+    df = pd.DataFrame(menu_Practical, index = range(1, len(menu_Practical["swordType"]) + 1))
+    df = format_cost_column(df)
+    print(df.to_string(col_space=15))
     
 weapon_list()
