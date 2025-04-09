@@ -2,36 +2,60 @@
 import pandas as pd
 
 def weapon_list():
-    #create menu dictionary
-    menu_dict = {}
-    #format prices as currency
-    pd.set_option('display.float_format','{:.2f}'.format)
-    #add category numbers to dictionary
-    menu_dict ["categoryID"] = [1,2,3,4,5]
-    #add weapon categories to dictionary 
-    menu_dict ["categoryName"] = ["Medieval European","Renaissance and Duelling","Asian and Eastern","Fantasy and Decorative","Practical and Training"]
-    #create new dictionaries for weapon categories
-    menu_Europe = {}
-    menu_Duelling = {}
-    menu_Asia = {}
-    menu_Decor = {}
-    menu_Practical = {}
-    #add entries to Europe dictionary
-    menu_Europe ["swordTypes"] = ["Arming Sword","Longsword","Bastard Sword","Claymore","Falchion"]
-    menu_Europe ["cost"] = [1000, 1500, 1500, 2000, 1000]
-    #add entries to Duelling dictionary
-    menu_Duelling ["swordTypes"] = ["Rapier","Sabre","Estoc"]
-    menu_Duelling ["cost"] = [1500, 1200, 1500]
-    #add entries to Asia dictionary
-    menu_Asia = ["swordTypes"] = ["Katana", "Wakizashi", "Dao", "Jian",]
-    menu_Asia = ["cost"] = [15000, 7000, 1500, 1000]
-    #add entries to Decor dictionary
-    menu_Decor = ["swordTypes"] = ["Replicas", "Custom Blades"]
-    menu_Decor = ["cost"] = [500, 1500]
-    #add entries to Practical dictionary
-    menu_Practical = ["swordTypes"] = ["Training Blades", "Feder Blades", "Wooden Blades"]
-    menu_Practical = ["cost"] = [700, 1000, 200]
     
-    print(weapon_list)
+    # Create menu dictionary
+    menu_dict = {}
+    # Format prices as currency
+    pd.set_option('display.float_format', '{:.2f}'.format)
+    
+    # Add category numbers and names to dictionary
+    menu_dict["categoryID"] = [1, 2, 3, 4, 6]
+    menu_dict["categoryName"] = ["Medieval European", "Renaissance and Duelling", "Asian and Eastern",
+                                 "Fantasy and Decorative", "Practical and Training"]
+    
+    # Create new menu for each weapon category
+    menu_Europe = {
+        "swordType": ["Arming Sword", "Longsowrd", "Bastard sword", "Claymore", "Falchion"],
+        "cost" : [1000, 1500, 1500, 2000, 1000]
+    }
+    
+    menu_Duelling = {
+        "swordType": ["Rapier", "Sabre", "Estoc"],
+        "cost" : [1500, 1200, 1500]
+    }
+    
+    menu_Asia = {
+        "swordType": ["Katana", "Wakizashi", "Dao", "Jian"],
+        "cost" : [15000, 7000, 1500, 1000]
+    }
+    
+    menu_Decor = {
+        "swordType": ["Replicas", "Custom Blades"],
+        "cost" : [500, 1500]
+    }
+    
+    menu_Practical = {
+        "swordType": ["Training Blades", "Feder Blades", "Wooden Blades"],
+        "cost" : [700, 1000, 200]
+    }
+    
+    # Print all dictionaries
+    print("Menu Categories:")
+    print(pd.DataFrame(menu_dict, index=range(1, len(menu_dict["categoryID"]) + 1)))
+    
+    print("\nMedieval European Swords")
+    print(pd.DataFrame(menu_Europe, index=range(1, len(menu_Europe["swordType"]) + 1)))
+    
+    print("\nRenaissance and Duelling Swords:")
+    print(pd.DataFrame(menu_Duelling, index=range(1, len(menu_Duelling["swordType"]) + 1)))
+    
+    print("\nAsian and Eastern Swords")
+    print(pd.DataFrame(menu_Asia, index=range(1, len(menu_Asia["swordType"]) + 1)))
+    
+    print("\nFantasy and Decorative Swords")
+    print(pd.DataFrame(menu_Decor, index=range(1, len(menu_Decor["swordType"]) + 1)))
+    
+    print("\nPractical and Training Swords")
+    print(pd.DataFrame(menu_Practical, index=range(1, len(menu_Practical["swordType"]) + 1)))
     
 weapon_list()
