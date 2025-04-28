@@ -1,12 +1,23 @@
-#import pandas as library
+# import pandas as library
 import pandas as pd
-#import colorama as library
+# import colorama as library
 from colorama import Fore, Back, Style, init
+# Auto reset colorama
+init(autoreset=True)
 
 # Cost format function
 def format_cost_column(df):
     df["cost"] = df["cost"].apply(lambda x: f"${x:,.2f}")
     return df
+
+# Colour mapping for categories
+category_colors = {
+    "European": Fore.BLUE,
+    "Duelling": Fore.GREEN,
+    "Asian": Fore.YELLOW,
+    "Decorative": Fore.MAGENTA,
+    "Practical": Fore.RED,
+}
 
 # Menu info
 menu_data = [
@@ -42,18 +53,21 @@ menu_data = [
 # Create DataFrame
 menu_df = pd.DataFrame(menu_data)
 
-# Add numbering
-menu_df.insert(0, "Number", range(1, len(menu_df) + 1))
-
 # Sort by category
 menu_df = menu_df.sort_values(by="Category")
 
+# Reset index and reassign numbering
+menu_df = menu_df.reset_index(drop=True)
+menu_df.insert(0, "Number", range(1, len(menu_df) + 1))
+
 # Alignment and printing
 for category, group in menu_df.groupby("Category"):
-    print(f"\n=== {category} ===")
+    # Default color to white
+    color = category_colors.get(category, Fore.WHITE)
+    print(f"\n{color}=== {category} ==={Style.RESET_ALL}")
     for _, row in group.iterrows():
         # {:2d} -> number (2 digits), {:25s} -> item name (25 characters wide, left-aligned), {:>6} -> price (right-aligned 6 spaces)
-        print(f"{row['Number']:2d}. {row['Sword Type']: <16} ${row['Price']:>6.2f}")
+        print(f"{row['Number']:2d}. {row['Sword Type']: <16} ${row['Price']:>9.2f}")
         
         
 # Start Order
@@ -61,7 +75,7 @@ order = []
 
 # Loop order while ordering
 while True:
-    choice = input("\nEnter the number of the item you want to order (or 0 to finish ordering)")
+    choice = input("\nEnter the number of the item you want to order (or 0 to finish ordering)\n")
     
     if not choice.isdigit():
         print("Please enter a valid number")
