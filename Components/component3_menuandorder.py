@@ -8,70 +8,85 @@ def format_cost_column(df):
     df["cost"] = df["cost"].apply(lambda x: f"${x:,.2f}")
     return df
 
+# Menu info
+menu_data = [
+    # European Swords
+    {"Category": "European", "Sword Type": "Arming Sword", "Price": 1000},
+    {"Category": "European", "Sword Type": "Longsword", "Price": 1500},
+    {"Category": "European", "Sword Type": "Bastard Sword", "Price": 1500},
+    {"Category": "European", "Sword Type": "Claymore", "Price": 2000},
+    {"Category": "European", "Sword Type": "Falchion", "Price": 1000},
+    
+    # Duelling Swords
+    {"Category": "Duelling", "Sword Type": "Rapier", "Price": 1500},
+    {"Category": "Duelling", "Sword Type": "Sabre", "Price": 1200},
+    {"Category": "Duelling", "Sword Type": "Estoc", "Price": 1500},
+
+    # Asian Swords
+    {"Category": "Asian", "Sword Type": "Katana", "Price": 15000},
+    {"Category": "Asian", "Sword Type": "Wakizashi", "Price": 7000},
+    {"Category": "Asian", "Sword Type": "Dao", "Price": 1500},
+    {"Category": "Asian", "Sword Type": "Jian", "Price": 1000},
+    
+    # Decorative Swords
+    {"Category": "Decorative", "Sword Type": "Replicas", "Price": 500},
+    {"Category": "Decorative", "Sword Type": "Custom Blades", "Price": 1500},
+    
+    # Practical Swords
+    {"Category": "Practical", "Sword Type": "Training Blades", "Price": 700},
+    {"Category": "Practical", "Sword Type": "Feder Blades", "Price": 1000},
+    {"Category": "Practical", "Sword Type": "Wooden Blades", "Price": 200},
+]
+
 # Weapon list display function
-def weapon_list():
-    
-    # Create menu dictionary
-    menu_dict = {}
+# Create DataFrame
+menu_df = pd.DataFrame(menu_data)
+
+# Add numbering
+menu_df.insert(0, "Number", range(1, len(menu_df) + 1))
+
+# Sort by category
+menu_df = menu_df.sort_values(by="Category")
+
+# Alignment and printing
+for category, group in menu_df.groupby("Category"):
+    print(f"\n=== {category} ===")
+    for _, row in group.iterrows():
+        # {:2d} -> number (2 digits), {:25s} -> item name (25 characters wide, left-aligned), {:>6} -> price (right-aligned 6 spaces)
+        print(f"{row['Number']:2d}. {row['Sword Type']: <16} ${row['Price']:>6.2f}")
         
-    # Add category numbers and names to dictionary
-    menu_dict["categoryName"] = ["Medieval European", "Renaissance and Duelling", "Asian and Eastern",
-                                 "Fantasy and Decorative", "Practical and Training"]
+        
+# Start Order
+order = []
+
+# Loop order while ordering
+while True:
+    choice = input("\nEnter the number of the item you want to order (or 0 to finish ordering)")
     
-    # Create new menu for each weapon category
-    menu_Europe = {
-        "swordType": ["Arming Sword", "Longsowrd", "Bastard sword", "Claymore", "Falchion"],
-        "cost" : [1000, 1500, 1500, 2000, 1000]
-    }
+    if not choice.isdigit():
+        print("Please enter a valid number")
+        continue
+
+    choice = int(choice)
+
+    if choice == 0:
+        break 
     
-    menu_Duelling = {
-        "swordType": ["Rapier", "Sabre", "Estoc"],
-        "cost" : [1500, 1200, 1500]
-    }
-    
-    menu_Asia = {
-        "swordType": ["Katana", "Wakizashi", "Dao", "Jian"],
-        "cost" : [15000, 7000, 1500, 1000]
-    }
-    
-    menu_Decor = {
-        "swordType": ["Replicas", "Custom Blades"],
-        "cost" : [500, 1500]
-    }
-    
-    menu_Practical = {
-        "swordType": ["Training Blades", "Feder Blades", "Wooden Blades"],
-        "cost" : [700, 1000, 200]
-    }
-    
-    # Print all dictionaries
-    # Print Menu Categories
-    print("Menu Categories:")
-    print(pd.DataFrame(menu_dict, index=range(1, len(menu_dict["categoryName"]) + 1)).to_string(col_space=10))
-    
-    print("\nMedieval European Swords:")
-    df = pd.DataFrame(menu_Europe, index = range(1, len(menu_Europe["swordType"]) + 1))
-    df = format_cost_column(df)
-    print(df.to_string(col_space=15))
-    
-    print("\nRenaissance and Duelling Swords:")
-    df = pd.DataFrame(menu_Duelling, index = range(1, len(menu_Duelling["swordType"]) + 1))
-    df = format_cost_column(df)
-    print(df.to_string(col_space=15))
-    
-    print("\nAsian and Eastern Swords:")
-    df = pd.DataFrame(menu_Asia, index = range(1, len(menu_Asia["swordType"]) + 1))
-    df = format_cost_column(df)
-    print(df.to_string(col_space=15))
-    
-    print("\nFantasy and Decorative Swords:")
-    df = pd.DataFrame(menu_Decor, index = range(1, len(menu_Decor["swordType"]) + 1))
-    df = format_cost_column(df)
-    print(df.to_string(col_space=15))
-    
-    print("\nPractical and Training Swords:")
-    df = pd.DataFrame(menu_Practical, index = range(1, len(menu_Practical["swordType"]) + 1))
-    df = format_cost_column(df)
-    print(df.to_string(col_space=15))
-    
-weapon_list()
+    if choice in menu_df["Number"].values:
+        item = menu_df.loc[menu_df["Number"] == choice].iloc[0]
+        order.append(item)
+        print(f"Added {item['Sword Type']} to your order!")
+        
+    else:
+        print("Invalid choice, please try again.")
+        
+# Show final order
+if order:
+    print("\nYour Order Summary")
+    total = 0
+    for idx, item in enumerate(order, 1):
+        print(f"{idx}. {item['Sword Type']} - ${item['Price']:.2f}")
+        total += item['Price']
+    print(f"\nTotal: ${total:.2f}")
+else:
+    print("You didn't order anything.")
