@@ -49,58 +49,61 @@ menu_data = [
     {"Category": "Practical", "Sword Type": "Wooden Blades", "Price": 200},
 ]
 
-# Weapon list display function
-# Create DataFrame
-menu_df = pd.DataFrame(menu_data)
+def menu():
+    # Weapon list display function
+    # Create DataFrame
+    menu_df = pd.DataFrame(menu_data)
 
-# Sort by category
-menu_df = menu_df.sort_values(by="Category")
+    # Sort by category
+    menu_df = menu_df.sort_values(by="Category")
 
-# Reset index and reassign numbering
-menu_df = menu_df.reset_index(drop=True)
-menu_df.insert(0, "Number", range(1, len(menu_df) + 1))
+    # Reset index and reassign numbering
+    menu_df = menu_df.reset_index(drop=True)
+    menu_df.insert(0, "Number", range(1, len(menu_df) + 1))
 
-# Alignment and printing
-for category, group in menu_df.groupby("Category"):
-    # Default color to white
-    color = category_colors.get(category, Fore.WHITE)
-    print(f"\n{color}=== {category} ==={Style.RESET_ALL}")
-    for _, row in group.iterrows():
-        # {:2d} -> number (2 digits), {:25s} -> item name (25 characters wide, left-aligned), {:>6} -> price (right-aligned 6 spaces)
-        print(f"{row['Number']:2d}. {row['Sword Type']: <16} ${row['Price']:>9.2f}")
+    # Alignment and printing
+    for category, group in menu_df.groupby("Category"):
+        # Default color to white
+        color = category_colors.get(category, Fore.WHITE)
+        print(f"\n{color}=== {category} ==={Style.RESET_ALL}")
+        for _, row in group.iterrows():
+            # {:2d} -> number (2 digits), {:25s} -> item name (25 characters wide, left-aligned), {:>6} -> price (right-aligned 6 spaces)
+            print(f"{row['Number']:2d}. {row['Sword Type']: <16} ${row['Price']:>9.2f}")
+            
+            
+    # Start Order
+    order = []
+
+    # Loop order while ordering
+    while True:
+        choice = input("\nEnter the number of the item you want to order (or 0 to finish ordering)\n")
         
+        if not choice.isdigit():
+            print("Please enter a valid number")
+            continue
+
+        choice = int(choice)
+
+        if choice == 0:
+            break 
         
-# Start Order
-order = []
-
-# Loop order while ordering
-while True:
-    choice = input("\nEnter the number of the item you want to order (or 0 to finish ordering)\n")
-    
-    if not choice.isdigit():
-        print("Please enter a valid number")
-        continue
-
-    choice = int(choice)
-
-    if choice == 0:
-        break 
-    
-    if choice in menu_df["Number"].values:
-        item = menu_df.loc[menu_df["Number"] == choice].iloc[0]
-        order.append(item)
-        print(f"Added {item['Sword Type']} to your order!")
-        
+        if choice in menu_df["Number"].values:
+            item = menu_df.loc[menu_df["Number"] == choice].iloc[0]
+            order.append(item)
+            print(f"Added {item['Sword Type']} to your order!")
+            
+        else:
+            print("Invalid choice, please try again.")
+            
+    # Show final order
+    if order:
+        print("\nYour Order Summary")
+        total = 0
+        for idx, item in enumerate(order, 1):
+            print(f"{idx}. {item['Sword Type']} - ${item['Price']:.2f}")
+            total += item['Price']
+        print(f"\nTotal: ${total:.2f}")
     else:
-        print("Invalid choice, please try again.")
+        print("You didn't order anything.")
         
-# Show final order
-if order:
-    print("\nYour Order Summary")
-    total = 0
-    for idx, item in enumerate(order, 1):
-        print(f"{idx}. {item['Sword Type']} - ${item['Price']:.2f}")
-        total += item['Price']
-    print(f"\nTotal: ${total:.2f}")
-else:
-    print("You didn't order anything.")
+menu()
