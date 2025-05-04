@@ -94,7 +94,19 @@ def menu():
             
         else:
             print("Invalid choice, please try again.")
-            
+    
+    # Define order confirmation function
+    def confirm_order(order):
+
+        confirm = input("Do you want to confirm your order? (Yes/No): ").strip().lower()
+        if confirm == "yes":
+            print("Thank you for your order!")
+        elif confirm == "no":
+            print("Order cancelled.")
+            menu()
+        else:
+            print("Invalid input. Please enter 'yes' or 'no'.")
+            confirm_order(order)
     # Show final order
     if order:
         print("\nYour Order Summary")
@@ -103,7 +115,10 @@ def menu():
             print(f"{idx}. {item['Sword Type']} - ${item['Price']:.2f}")
             total += item['Price']
         print(f"\nTotal: ${total:.2f}")
+        
     else:
         print("You didn't order anything.")
-        
+    confirm_order(order)
+    
 menu()
+
