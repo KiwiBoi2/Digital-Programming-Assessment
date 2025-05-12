@@ -14,17 +14,22 @@ def is_alphabetical(name):
     # Allowing letters, hyphens, apostrophes, and spaces
     allowed_characters = r"[a-zA-Z-']+"  
     return bool(re.fullmatch(allowed_characters, name))
-# Using function to verify the customer name
-while True:
-    name = input("Please enter the your name: ")
-    # Remove spaces for validation
-    unchecked_name = name.replace(" ", "")  
-    # Check if the name is empty
-    if is_alphabetical(unchecked_name):
-        print("Customer name is valid.")
-        customer_info.append(name)
-        print("Customer name has been added to the list.")
-        print(customer_info)
-        break
-    else:
-        print("Customer name is invalid. Please enter a valid name.")
+
+# Defining getting user name function
+def get_user_name(name):
+    # Using function to verify the customer name
+    while True:
+        name = input("Please enter the your name: ")
+        # Remove spaces for validation
+        unchecked_name = name.replace(" ", "")  
+        # Check if the name is empty
+        if is_alphabetical(unchecked_name):
+            print("Customer name is valid.")
+            customer_info["name"].append(name)
+            print("Customer name has been added to the list.")
+            print(customer_info)
+            break
+        else:
+            print("Customer name is invalid. Please enter a valid name.")
+
+get_user_name("name")
