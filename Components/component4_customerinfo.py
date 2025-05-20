@@ -35,10 +35,13 @@ def get_user_name():
         # Check if the name is empty
         if is_alphabetical(unchecked_name):
             print("Customer name is valid.")
-            customerinfo['name'] = name
+            # .title() automatically capitalizes the first letter of each word for proper name formatting
+            customerinfo['name'] = name.title()
+            # Adding customer name to the customerinfo dictionary
             print("Customer name has been added to the list.")
             break
         else:
+            # If the name is not valid it prints this error message and loops until a valid name is entered
             print("Customer name is invalid. Please enter a valid name.")
 
           
@@ -64,6 +67,7 @@ def address_number():
             print("Address number has been added to the list.")
             break
         else:
+            # If the address number is not valid it prints this error message and loops until a valid address number is entered
             print("Address number is invalid. Please enter a valid address number.")
 
 
@@ -85,10 +89,13 @@ def address_street():
         unchecked_address_street = street_name.replace(" ", "")
         if is_alphabetical(unchecked_address_street):
             print("Address street is valid.")
-            customerinfo['address'] = street_name
+            # .title() automatically capitalizes the first letter of each word for proper street name formatting
+            customerinfo['address'] = street_name.title()
+            # Adding address street to the customerinfo dictionary
             print("Address street has been added to the list.")
             break
         else:
+            # If the address street is not valid it prints this error message and loops until a valid address street is entered
             print("Address street is invalid. Please enter a valid address street.")
 
 
@@ -96,3 +103,4 @@ def address_street():
 get_user_name()
 address_number()
 address_street()
+print(customerinfo)
