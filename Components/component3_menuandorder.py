@@ -1,7 +1,7 @@
 # import pandas as library
 import pandas as pd
 # import colorama as library
-from colorama import Fore, Back, Style, init
+from colorama import Fore, Style, init
 # Auto reset colorama
 init(autoreset=True)
 
