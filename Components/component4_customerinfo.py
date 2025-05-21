@@ -14,7 +14,6 @@ customerinfo = {
 def is_alphabetical(input_string):
     """
     This function takes a string as input and checks if it is alphabetical.
-    
     if it is alphabetical it returns True
     if it is not alphabetical it returns False
     The function allows letters, hyphens, apostrophes, and spaces
@@ -22,6 +21,19 @@ def is_alphabetical(input_string):
     """
     # Allowing letters, hyphens, apostrophes, and spaces
     allowed_characters = r"[a-zA-Z\-']+"
+    return bool(re.fullmatch(allowed_characters, input_string))
+
+
+def is_numeric(input_string):
+    """
+    This function takes a string as input and checks if it is numeric.
+    if it is numeric it returns True
+    if it is not numeric it returns False
+    The function allows numbers and letters (for apartment numbers)
+    it uses regular expression to check if the string is valid
+    """
+    # Allowing numbers and letters (for apartment numbers)
+    allowed_characters = r"[0-9]+"
     return bool(re.fullmatch(allowed_characters, input_string))
 
 
@@ -51,12 +63,11 @@ def get_user_name():
             # loops until a valid name is entered
             print("Customer name is invalid. Please enter a valid name.")
 
-         
+
 # Defining address verification function
-def address_number():
+def get_address_number():
     """
     This function takes address number as input and checks if it is a number.
-    
     if it is a number it adds it to the customerinfo dictionary
     if it is not a number it loops until a valid address number is entered
     The function allows numbers and letters (for apartment numbers)
@@ -80,10 +91,9 @@ def address_number():
 
 
 # Defining address verification function
-def address_street():
+def get_address_street():
     """
     This function takes street name as input and checks if it is alphabetical.
-    
     if it is alphabetical it adds it to the customerinfo dictionary
     if it is not alphabetical it loops until a valid street name is entered
     The function allows letters, hyphens, apostrophes, and spaces
@@ -97,20 +107,45 @@ def address_street():
         unchecked_address_street = street_name.replace(" ", "")
         if is_alphabetical(unchecked_address_street):
             print("Address street is valid.")
-            # .title() automatically capitalizes the first letter of each word 
+            # .title() automatically capitalizes the first letter of each word
             # for proper street name formatting
             customerinfo['address'] = street_name.title()
             # Adding address street to the customerinfo dictionary
             print("Address street has been added to the list.")
             break
         else:
-            # If the address street is not valid it prints this error message 
+            # If the address street is not valid it prints this error message
             # loops until a valid address street is entered
             print("Address street is invalid. Please enter a valid address street.")
 
 
+def get_user_phone_number():
+    """
+    This function takes phone number as input and checks if it is a number.
+    if it is a number it adds it to the customerinfo dictionary
+    if it is not a number it loops until a valid phone number is entered
+    The function allows numbers and letters (for apartment numbers)
+    The function also checks if the phone number is empty
+    If any of these conditions are not met it loops until a valid phone number is entered
+    """
+    # Allows only numbers
+    while True:
+        customer_number = input("Please enter your phone number: ")
+        # Check if the phone number is empty
+        if is_numeric(customer_number) and len(customer_number) <=12:
+            print("Phone number is valid.")
+            customerinfo['phone'] = customer_number
+            # Adding phone number to the customerinfo dictionary
+            print("Phone number has been added to the list.")
+            break
+        else:
+            # If the phone number is not valid it prints this error message
+            # loops until a valid phone number is entered
+            print("Phone number is invalid. Please enter a valid phone number.")
+
+
 # Calling functions
 get_user_name()
-address_number()
-address_street()
-print(customerinfo)
+get_user_phone_number()
+get_address_number()
+get_address_street()
