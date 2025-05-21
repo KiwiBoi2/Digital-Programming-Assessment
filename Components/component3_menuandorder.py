@@ -69,15 +69,15 @@ def menu():
         for _, row in group.iterrows():
             # {:2d} -> number (2 digits), {:25s} -> item name (25 characters wide, left-aligned), {:>6} -> price (right-aligned 6 spaces)
             print(f"{row['Number']:2d}. {row['Sword Type']: <16} ${row['Price']:>9.2f}")
-            
-            
+
+
     # Start Order
     order = []
 
     # Loop order while ordering
     while True:
         choice = input("\nEnter the number of the item you want to order (or 0 to finish ordering)\n")
-        
+
         if not choice.isdigit():
             print("Please enter a valid number")
             continue
@@ -86,15 +86,15 @@ def menu():
 
         if choice == 0:
             break 
-        
+
         if choice in menu_df["Number"].values:
             item = menu_df.loc[menu_df["Number"] == choice].iloc[0]
             order.append(item)
             print(f"Added {item['Sword Type']} to your order!")
-            
+
         else:
             print("Invalid choice, please try again.")
-    
+
     # Define order confirmation function
     def confirm_order(order):
 
@@ -115,10 +115,9 @@ def menu():
             print(f"{idx}. {item['Sword Type']} - ${item['Price']:.2f}")
             total += item['Price']
         print(f"\nTotal: ${total:.2f}")
-        
+
     else:
         print("You didn't order anything.")
     confirm_order(order)
-    
-menu()
 
+menu()
