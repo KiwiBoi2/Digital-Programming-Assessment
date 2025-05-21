@@ -27,6 +27,11 @@ def is_alphabetical(input_string):
 
 # Defining getting user name function
 def get_user_name():
+    """
+    This function takes customer name as input and checks if it is alphabetical.
+    if it is alphabetical it adds it to the customerinfo dictionary
+    if it is not alphabetical it loops until a valid name is entered
+    """
     # Using function to verify the customer name
     while True:
         name = input("Please enter your name: ")
@@ -35,16 +40,18 @@ def get_user_name():
         # Check if the name is empty
         if is_alphabetical(unchecked_name):
             print("Customer name is valid.")
-            # .title() automatically capitalizes the first letter of each word for proper name formatting
+            # .title() automatically capitalizes the first letter of each word
+            # for proper name formatting
             customerinfo['name'] = name.title()
             # Adding customer name to the customerinfo dictionary
             print("Customer name has been added to the list.")
             break
         else:
-            # If the name is not valid it prints this error message and loops until a valid name is entered
+            # If the name is not valid it prints this error message
+            # loops until a valid name is entered
             print("Customer name is invalid. Please enter a valid name.")
 
-          
+         
 # Defining address verification function
 def address_number():
     """
@@ -67,7 +74,8 @@ def address_number():
             print("Address number has been added to the list.")
             break
         else:
-            # If the address number is not valid it prints this error message and loops until a valid address number is entered
+            # If the address number is not valid it prints this error message
+            # loops until a valid address number is entered
             print("Address number is invalid. Please enter a valid address number.")
 
 
@@ -89,13 +97,15 @@ def address_street():
         unchecked_address_street = street_name.replace(" ", "")
         if is_alphabetical(unchecked_address_street):
             print("Address street is valid.")
-            # .title() automatically capitalizes the first letter of each word for proper street name formatting
+            # .title() automatically capitalizes the first letter of each word 
+            # for proper street name formatting
             customerinfo['address'] = street_name.title()
             # Adding address street to the customerinfo dictionary
             print("Address street has been added to the list.")
             break
         else:
-            # If the address street is not valid it prints this error message and loops until a valid address street is entered
+            # If the address street is not valid it prints this error message 
+            # loops until a valid address street is entered
             print("Address street is invalid. Please enter a valid address street.")
 
 
