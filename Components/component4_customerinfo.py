@@ -6,7 +6,9 @@ customerinfo = {
     'name': '',
     'address_number': '',
     'address': '',
+    'suburb': '',
     'phone': '',
+    
 }
 
 
@@ -144,8 +146,36 @@ def get_user_phone_number():
             print("Phone number is invalid. Please enter a valid phone number.")
 
 
+def get_address_suburb():
+    """
+    This function takes suburb name as input and checks if it is alphabetical.
+    if it is alphabetical it adds it to the customerinfo dictionary
+    if it is not alphabetical it loops until a valid street name is entered
+    The function allows letters, hyphens, apostrophes, and spaces
+    uses the is_alphabetical function to check if the suburb name is valid
+    """
+    # Allows only letters, hypens, apostrophes, and spaces
+    while True:
+        suburb_name = input("Please enter your address suburb: ")
+        # Check if the address street is empty
+        unchecked_address_street = suburb_name.replace(" ", "")
+        if is_alphabetical(unchecked_address_street):
+            print("Address suburb is valid.")
+            # .title() automatically capitalizes the first letter of each word
+            # for proper street name formatting
+            customerinfo['address'] = suburb_name.title()
+            # Adding address street to the customerinfo dictionary
+            print("Address suburb has been added to the list.")
+            break
+        else:
+            # If the address street is not valid it prints this error message
+            # loops until a valid address street is entered
+            print("Address suburb is invalid. Please enter a valid address suburb.")
+
+
 # Calling functions
 get_user_name()
 get_user_phone_number()
 get_address_number()
 get_address_street()
+get_address_suburb()
