@@ -1,2 +1,0 @@
-from component4_customerinfo import customerinfo, is_alphabetical, is_numeric
-from component3_menuandorder import print_menu
