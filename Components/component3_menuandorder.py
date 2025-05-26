@@ -17,6 +17,7 @@ category_colors = {
     "Asian": Fore.YELLOW,
     "Decorative": Fore.MAGENTA,
     "Practical": Fore.RED,
+    "Accessories": Fore.CYAN,
 }
 
 # Menu info
@@ -47,6 +48,11 @@ menu_data = [
     {"Category": "Practical", "Sword Type": "Training Blades", "Price": 700},
     {"Category": "Practical", "Sword Type": "Feder Blades", "Price": 1000},
     {"Category": "Practical", "Sword Type": "Wooden Blades", "Price": 200},
+    
+    # Accessories
+    {"Category": "Accessories", "Sword Type": "Scabbards", "Price": 150},
+    {"Category": "Accessories", "Sword Type": "Sword Stands", "Price": 100},
+    {"Category": "Accessories", "Sword Type": "Maintenance Kits", "Price": 45},
 ]
 
 def menu():
@@ -114,6 +120,11 @@ def menu():
         for idx, item in enumerate(order, 1):
             print(f"{idx}. {item['Sword Type']} - ${item['Price']:.2f}")
             total += item['Price']
+        if total > 50:
+            print(Fore.GREEN + "Your order is above $50, shipping is free!")
+        else:
+            print(Fore.RED + "Your order is below $50, shipping is $14.")
+            total += 14
         print(f"\nTotal: ${total:.2f}")
 
     else:
