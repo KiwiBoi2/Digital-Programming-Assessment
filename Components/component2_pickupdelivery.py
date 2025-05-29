@@ -1,13 +1,9 @@
 # Pickup and Delivery constants
 PICKUP_CONSTANT = 1
 DELIVERY_CONSTANT = 2
-PICKUP = None
-DELIVERY = None
 
 # Function to check the user's choice for pickup or delivery
 def choice_checker():
-    # Setting global variables
-    global PICKUP, DELIVERY
     #Checking choice
     while True:
         try:
@@ -16,14 +12,16 @@ def choice_checker():
                 #If pickup selected
                 if choice == 1:
                     print("Pickup Selected")
-                    PICKUP = True
-                    DELIVERY = False
+                    # Set the choice to 1 for pickup
+                    # This will be used later in the code to determine if the user chose pickup or delivery
+                    choice = 1
                     break
                 #If delivery selected
                 elif choice == 2:
                     print("Delivery Selected")
-                    PICKUP = False
-                    DELIVERY = True
+                    # Set the choice to 2 for delivery
+                    # This will be used later in the code to determine if the user chose pickup or delivery
+                    choice = 2
                     break
                 else:
                     choice = int(input("That is not a valid number. Please enter 1 or 2"))

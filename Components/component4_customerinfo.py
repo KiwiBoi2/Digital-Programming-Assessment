@@ -1,6 +1,8 @@
 # Import regular expression for validation
 """This file is used to gather customer information for the online store program."""
 import re
+
+
 # Setting up customer information storage
 customerinfo = {
     'name': '',
@@ -171,11 +173,3 @@ def get_address_suburb():
             # If the address street is not valid it prints this error message
             # loops until a valid address street is entered
             print("Address suburb is invalid. Please enter a valid address suburb.")
-
-
-# Calling functions
-get_user_name()
-get_user_phone_number()
-get_address_number()
-get_address_street()
-get_address_suburb()
