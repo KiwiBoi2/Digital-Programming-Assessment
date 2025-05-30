@@ -1,27 +1,27 @@
 # Importing necessary libraries
-import time # For delays between printing messages
-import re # For regular expression validations
-from random import randint # For random name selection
-import pandas as pd # For handling menu data and formatting
-from colorama import Fore, Style, init # For coloured text to differentiate important information
+import time  # For delays between printing messages
+import re  # For regular expression validations
+from random import randint  # For random name selection
+import pandas as pd  # For handling menu data and formatting
+from colorama import Fore, Style, init  # For coloured text to differentiate important information
+
 # Auto reset colorama so default terminal colors are restored after each print
 init(autoreset=True)
 
 # name library for random name picker
-names = ["Olivia", "James", "Charlotte", "Ethan", "Amelia", "Liam", "Sophie",
-         "Benjamin", "Isla", "Noah", "Emily", "Lucas", "Ava", "Oliver", "Grace"]
-
+names = [
+    "Olivia", "James", "Charlotte", "Ethan", "Amelia", "Liam", "Sophie",
+    "Benjamin", "Isla", "Noah", "Emily", "Lucas", "Ava", "Oliver", "Grace"
+]
 
 # Setting up customer information storage
 customerinfo = {
-    'name': '', # Customer's name
-    'address_number': '', # Customer's address number
-    'address_street': '', # Customer's address street
-    'address_suburb': '', # Customer's address suburb
-    'phone': '', # Customer's phone number
-
+    'name': '',  # Customer's name
+    'address_number': '',  # Customer's address number
+    'address_street': '',  # Customer's address street
+    'address_suburb': '',  # Customer's address suburb
+    'phone': '',  # Customer's phone number
 }
-
 
 # Pickup and Delivery constants
 PICKUP_CONSTANT = 1
@@ -54,8 +54,8 @@ def welcome():
     print("I shall be assisting you in selecting and purchasing your blade\n")
     time.sleep(1)
     # Yellow colour to differentiate important information
-    print(Fore.YELLOW+"Please note that all orders above $50 will receive free shipping,")
-    print(Fore.YELLOW+"while orders below $50 will incur a shipping fee of $14.\n")
+    print(Fore.YELLOW + "Please note that all orders above $50 will receive free shipping,")
+    print(Fore.YELLOW + "while orders below $50 will incur a shipping fee of $14.\n")
     time.sleep(1)
 
 
@@ -65,28 +65,24 @@ def choice_checker():
     while True:
         try:
             choice = int(input("Please enter 1 or 2\n"))
-            if choice >= PICKUP_CONSTANT and choice <= DELIVERY_CONSTANT:
+            if PICKUP_CONSTANT <= choice <= DELIVERY_CONSTANT:
                 # If pickup selected
                 if choice == 1:
                     print("Pickup Selected")
                     time.sleep(0.5)
-                    # Set the choice to 1 for pickup
-                    # This will be used later in the code to determine if the user chose pickup or delivery
                     choice = 1
                     break
                 # If delivery selected
                 elif choice == 2:
                     print("Delivery Selected")
                     time.sleep(0.5)
-                    # Set the choice to 2 for delivery
-                    # This will be used later in the code to determine if the user chose pickup or delivery
                     choice = 2
                     break
                 else:
                     choice = int(
-                        input(Fore.RED+"That is not a valid number. Please enter 1 or 2"))
+                        input(Fore.RED + "That is not a valid number. Please enter 1 or 2"))
         except ValueError:
-            print(Fore.RED+"That is not a valid number. Please enter 1 or 2")
+            print(Fore.RED + "That is not a valid number. Please enter 1 or 2")
     # Calling functions based on pickup or delivery choice
     if choice == 1:
         get_user_name()
@@ -95,7 +91,6 @@ def choice_checker():
         get_user_phone_number()
         # Added delay so user can process information before next input
         time.sleep(0.5)
-
     elif choice == 2:
         get_user_name()
         # Added delay so user can process information before next input
@@ -113,9 +108,8 @@ def choice_checker():
         # Added delay so user can process information before next input
         time.sleep(0.5)
 
+
 # Function to ask the user if they would like to pick up their item from the store or have it delivered
-
-
 def pickup_delivery():
     # This function will ask the user if they would like to pick up their item from the store or have it be delivered
     # Ask for pickup or delivery
@@ -202,7 +196,7 @@ def menu():
             print(
                 # Using f-string formatting to print the item number, sword type, and price
                 f"{row['Number']:2d}. {row['Sword Type']: <16} ${row['Price']:>9.2f}")
-    time.sleep(5) # Adding a delay to allow the user to read the menu before proceeding
+    time.sleep(5)  # Adding a delay to allow the user to read the menu before proceeding
 
     # Start order processing
     order = []
@@ -215,7 +209,7 @@ def menu():
         if not choice.isdigit():
             # If the input is not a digit, print an error message and continue the loop
             # using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Please enter a valid number")
+            print(Fore.RED + "Please enter a valid number")
             continue
 
         choice = int(choice)
@@ -227,35 +221,35 @@ def menu():
             item = menu_df.loc[menu_df["Number"] == choice].iloc[0]
             order.append(item)
             # Using Fore.YELLOW to print the message in yellow to indicate a successful addition
-            print(Fore.YELLOW+f"Added {item['Sword Type']} to your order!")
+            print(Fore.YELLOW + f"Added {item['Sword Type']} to your order!")
 
         else:
             # If the choice is not in the menu, print an error message
             # Using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Invalid choice, please try again.")
+            print(Fore.RED + "Invalid choice, please try again.")
 
     # Define order confirmation function
     def confirm_menu_order(order):
-        # 
         confirm = input("Do you want to confirm your order? (Yes/No): ").strip().lower()
         if confirm == "yes":
-            print(Fore.GREEN+"Thank you for your order!")
+            print(Fore.GREEN + "Thank you for your order!")
         elif confirm == "no":
-            print(Fore.GREEN+"Order cancelled.")
+            print(Fore.GREEN + "Order cancelled.")
             menu()
         else:
-            print(Fore.RED+"Invalid input. Please enter 'yes' or 'no'.")
+            print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
             confirm_menu_order(order)
+
     # Show final order
     if order:
         # Using Fore.LIGHTBLUE_EX to print the order summary in light blue to differentiate it from other messages
-        print(Fore.LIGHTBLUE_EX+"\nYour Order Summary")
+        print(Fore.LIGHTBLUE_EX + "\nYour Order Summary")
         total = 0
         # Using enumerate to number the items in the order
         for idx, item in enumerate(order, 1):
             # Using f-string formatting to print the item number, sword type, and price
             print(f"{idx}. {item['Sword Type']} - ${item['Price']:.2f}")
-        # Calculate total cost
+            # Calculate total cost
             total += item['Price']
         # If total cost is above $50, print a message indicating free shipping
         # If total cost is below $50, print a message indicating shipping cost
@@ -273,32 +267,18 @@ def menu():
     else:
         # If no items were ordered, print a message indicating that no order was placed
         # Using Fore.YELLOW to print the message in yellow to indicate important information
-        print(Fore.YELLOW+"You didn't order anything.")
+        print(Fore.YELLOW + "You didn't order anything.")
     confirm_menu_order(order)
 
 
 # Defining alphabetical verification function
 def is_alphabetical(input_string):
-    """
-    This function takes a string as input and checks if it is alphabetical.
-    if it is alphabetical it returns True
-    if it is not alphabetical it returns False
-    The function allows letters, hyphens, apostrophes, and spaces
-    it uses regular expression to check if the string is valid
-    """
     # Allowing letters, hyphens, apostrophes, and spaces
     allowed_characters = r"[a-zA-Z\-']+"
     return bool(re.fullmatch(allowed_characters, input_string))
 
 
 def is_numeric(input_string):
-    """
-    This function takes a string as input and checks if it is numeric.
-    if it is numeric it returns True
-    if it is not numeric it returns False
-    The function allows numbers and letters (for apartment numbers)
-    it uses regular expression to check if the string is valid
-    """
     # Allowing numbers and letters (for apartment numbers)
     allowed_characters = r"[0-9]+"
     return bool(re.fullmatch(allowed_characters, input_string))
@@ -306,11 +286,6 @@ def is_numeric(input_string):
 
 # Defining getting user name function
 def get_user_name():
-    """
-    This function takes customer name as input and checks if it is alphabetical.
-    if it is alphabetical it adds it to the customerinfo dictionary
-    if it is not alphabetical it loops until a valid name is entered
-    """
     # Using function to verify the customer name
     while True:
         # Asking for customer name
@@ -320,30 +295,22 @@ def get_user_name():
         # Check if the name is empty
         if is_alphabetical(unchecked_name):
             # Using Fore.GREEN to print the message in green to indicate valid input
-            print(Fore.GREEN+"Customer name is valid.")
+            print(Fore.GREEN + "Customer name is valid.")
             # .title() automatically capitalizes the first letter of each word for proper name formatting
             customerinfo['name'] = name.title()
             # Adding customer name to the customerinfo dictionary
             # Using Fore.CYAN to print the message in cyan to indicate successful addition
-            print(Fore.CYAN+"Customer name has been added to the list.")
+            print(Fore.CYAN + "Customer name has been added to the list.")
             break
         else:
             # If the name is not valid it prints this error message
             # loops until a valid name is entered
             # Using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Customer name is invalid. Please enter a valid name.")
+            print(Fore.RED + "Customer name is invalid. Please enter a valid name.")
 
 
 # Defining address verification function
 def get_address_number():
-    """
-    This function takes address number as input and checks if it is a number.
-    if it is a number it adds it to the customerinfo dictionary
-    if it is not a number it loops until a valid address number is entered
-    The function allows numbers and letters (for apartment numbers)
-    The function also checks if the address number is empty
-    If any of these conditions are not met it loops until a valid address number is entered
-    """
     # Allows only numbers
     while True:
         # Asking for address number
@@ -351,29 +318,21 @@ def get_address_number():
         # Check if the address number is empty
         if re.fullmatch(r"\d+[a-zA-Z]?", street_number):
             # Using Fore.GREEN to print the message in green to indicate valid input
-            print(Fore.GREEN+"Address number is valid.")
+            print(Fore.GREEN + "Address number is valid.")
             customerinfo['address_number'] = street_number
             # Adding address number to the customerinfo dictionary
             # Using Fore.CYAN to print the message in cyan to indicate successful addition
-            print(Fore.CYAN+"Address number has been added to the list.")
+            print(Fore.CYAN + "Address number has been added to the list.")
             break
         else:
             # If the address number is not valid it prints this error message
             # loops until a valid address number is entered
             # Using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Address number is invalid. Please enter a valid address number.")
+            print(Fore.RED + "Address number is invalid. Please enter a valid address number.")
 
 
 # Defining address verification function
 def get_address_street():
-    """
-    This function takes street name as input and checks if it is alphabetical.
-    if it is alphabetical it adds it to the customerinfo dictionary
-    if it is not alphabetical it loops until a valid street name is entered
-    The function allows letters, hyphens, apostrophes, and spaces
-    uses the is_alphabetical function to check if the street name is valid
-    The function also removes spaces from the street name for validation
-    """
     # Allows only letters, hypens, apostrophes, and spaces
     while True:
         # Asking for address street
@@ -382,30 +341,22 @@ def get_address_street():
         unchecked_address_street = street_name.replace(" ", "")
         if is_alphabetical(unchecked_address_street):
             # Using Fore.GREEN to print the message in green to indicate valid input
-            print(Fore.GREEN+"Address street is valid.")
+            print(Fore.GREEN + "Address street is valid.")
             # .title() automatically capitalizes the first letter of each word
             # for proper street name formatting
             customerinfo['address_street'] = street_name.title()
             # Adding address street to the customerinfo dictionary
             # Using Fore.CYAN to print the message in cyan to indicate successful addition
-            print(Fore.CYAN+"Address street has been added to the list.")
+            print(Fore.CYAN + "Address street has been added to the list.")
             break
         else:
             # If the address street is not valid it prints this error message
             # loops until a valid address street is entered
             # Using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Address street is invalid. Please enter a valid address street.")
+            print(Fore.RED + "Address street is invalid. Please enter a valid address street.")
 
 
 def get_user_phone_number():
-    """
-    This function takes phone number as input and checks if it is a number.
-    if it is a number it adds it to the customerinfo dictionary
-    if it is not a number it loops until a valid phone number is entered
-    The function allows numbers and letters (for apartment numbers)
-    The function also checks if the phone number is empty
-    If any of these conditions are not met it loops until a valid phone number is entered
-    """
     # Allows only numbers
     while True:
         # Asking for customer phone number
@@ -415,27 +366,20 @@ def get_user_phone_number():
         # Valid meaning it contains only numbers and is less than or equal to 12 characters
         if is_numeric(customer_number) and len(customer_number) <= 12:
             # Using Fore.GREEN to print the message in green to indicate valid input
-            print(Fore.GREEN+"Phone number is valid.")
+            print(Fore.GREEN + "Phone number is valid.")
             customerinfo['phone'] = customer_number
             # Adding phone number to the customerinfo dictionary
             # Using Fore.CYAN to print the message in cyan to indicate successful addition
-            print(Fore.CYAN+"Phone number has been added to the list.")
+            print(Fore.CYAN + "Phone number has been added to the list.")
             break
         else:
             # If the phone number is not valid it prints this error message
             # loops until a valid phone number is entered
             # Using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Phone number is invalid. Please enter a valid phone number.")
+            print(Fore.RED + "Phone number is invalid. Please enter a valid phone number.")
 
 
 def get_address_suburb():
-    """
-    This function takes suburb name as input and checks if it is alphabetical.
-    if it is alphabetical it adds it to the customerinfo dictionary
-    if it is not alphabetical it loops until a valid street name is entered
-    The function allows letters, hyphens, apostrophes, and spaces
-    uses the is_alphabetical function to check if the suburb name is valid
-    """
     # Allows only letters, hypens, apostrophes, and spaces
     while True:
         # Asking for address suburb
@@ -444,19 +388,19 @@ def get_address_suburb():
         unchecked_address_street = suburb_name.replace(" ", "")
         if is_alphabetical(unchecked_address_street):
             # Using Fore.GREEN to print the message in green to indicate valid input
-            print(Fore.GREEN+"Address suburb is valid.")
+            print(Fore.GREEN + "Address suburb is valid.")
             # .title() automatically capitalizes the first letter of each word
             # for proper street name formatting
             customerinfo['address_suburb'] = suburb_name.title()
             # Adding address street to the customerinfo dictionary
             # Using Fore.CYAN to print the message in cyan to indicate successful addition
-            print(Fore.CYAN+"Address suburb has been added to the list.")
+            print(Fore.CYAN + "Address suburb has been added to the list.")
             break
         else:
             # If the address street is not valid it prints this error message
             # loops until a valid address street is entered
             # Using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Address suburb is invalid. Please enter a valid address suburb.")
+            print(Fore.RED + "Address suburb is invalid. Please enter a valid address suburb.")
 
 
 def order_again():
@@ -468,19 +412,19 @@ def order_again():
         # If the user wants to order again, return to the main menu
         if again in ['yes', 'y']:
             # Using Fore.MAGENTA to print the message in magenta to indicate a successful order and return to menu
-            print(Fore.MAGENTA+"Returning to the main menu...")
+            print(Fore.MAGENTA + "Returning to the main menu...")
             # Call the main function to restart the process
             main()
             return True
         # If the user does not want to order again, exit the program
         elif again in ['no', 'n']:
             # Using Fore.MAGENTA to print the message in magenta to indicate a successful order and exit
-            print(Fore.MAGENTA+"Thank you for your order. Goodbye!")
+            print(Fore.MAGENTA + "Thank you for your order. Goodbye!")
             return False
         else:
             # If the input is not valid, print an error message and ask again
             # Using Fore.RED to print the error message in red to indicate an error
-            print(Fore.RED+"Invalid input. Please enter 'yes' or 'no'.")
+            print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
 
 
 # Main function to run the program
@@ -491,4 +435,4 @@ def main():
     order_again()  # Call the order_again function to ask if the user wants to order again or exit
 
 
-main() # Call the main function to start the program
+main()  # Call the main function to start the program
