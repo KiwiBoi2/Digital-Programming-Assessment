@@ -230,15 +230,17 @@ def menu():
 
     # Define order confirmation function
     def confirm_menu_order(order):
-        confirm = input("Do you want to confirm your order? (Yes/No): ").strip().lower()
-        if confirm == "yes":
-            print(Fore.GREEN + "Thank you for your order!")
-        elif confirm == "no":
-            print(Fore.GREEN + "Order cancelled.")
-            menu()
-        else:
-            print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
-            confirm_menu_order(order)
+            confirm = input("Do you want to confirm your order? (Yes/No): ").strip().lower()
+            if confirm == "yes":
+                print(Fore.GREEN + "Thank you for your order!")
+                # Store the order for printing with customer details
+                print_customer_details.order = order
+            elif confirm == "no":
+                print(Fore.GREEN + "Order cancelled.")
+                menu()
+            else:
+                print(Fore.RED + "Invalid input. Please enter 'yes' or 'no'.")
+                confirm_menu_order(order)
 
     # Show final order
     if order:
@@ -268,7 +270,9 @@ def menu():
         # If no items were ordered, print a message indicating that no order was placed
         # Using Fore.YELLOW to print the message in yellow to indicate important information
         print(Fore.YELLOW + "You didn't order anything.")
-    confirm_menu_order(order)
+    print_customer_details()  # Print the customer details
+    print("")  # Print a blank line for better readability
+    confirm_menu_order(order) # Call the confirm_menu_order function to confirm the order
 
 
 # Defining alphabetical verification function
@@ -401,6 +405,28 @@ def get_address_suburb():
             # loops until a valid address street is entered
             # Using Fore.RED to print the error message in red to indicate an error
             print(Fore.RED + "Address suburb is invalid. Please enter a valid address suburb.")
+
+
+def print_customer_details():
+    # Print customer details in a formatted table without headings
+    print(Fore.LIGHTCYAN_EX + "\nCustomer Details:")
+    print("-" * 35)
+    for key, value in customerinfo.items():
+        # Format the key to be more readable
+        field = key.replace('_', ' ').title()
+        print(f"{field:<18} | {value}")
+    print("-" * 35)
+    # Print order summary if available
+    if hasattr(print_customer_details, "order") and print_customer_details.order:
+        print(Fore.LIGHTBLUE_EX + "\nOrder Summary:")
+        print("-" * 35)
+        total = 0
+        for idx, item in enumerate(print_customer_details.order, 1):
+            print(f"{idx}. {item['Sword Type']:<18} ${item['Price']:>8.2f}")
+            total += item['Price']
+        print("-" * 35)
+        print(f"{'Total':<18} | ${total:>8.2f}")
+        print("-" * 35)
 
 
 def order_again():
